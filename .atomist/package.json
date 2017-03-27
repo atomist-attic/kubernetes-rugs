@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@atomist/rugs": "0.0.7"
+    "@atomist/rugs": "^0.0.9"
   }
 }
