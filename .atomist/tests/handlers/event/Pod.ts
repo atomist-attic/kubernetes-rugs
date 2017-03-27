@@ -25,8 +25,7 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
    environment.withOwns(spec)
 
    let pod: Pod = new Pod
-   pod.withState("running")
-   pod.withUses(container)
+   pod.withState("Started").withUses(container)
    spec.withCreates(pod)
 
    world.sendEvent(pod)
