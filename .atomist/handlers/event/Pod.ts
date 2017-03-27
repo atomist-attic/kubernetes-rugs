@@ -1,14 +1,11 @@
 import { HandleEvent, Message, Plan } from '@atomist/rug/operations/Handlers'
 import { GraphNode, Match, PathExpression } from '@atomist/rug/tree/PathExpression'
 import { EventHandler, Tags } from '@atomist/rug/operations/Decorators'
-
-import { Pod } from "@atomist/rug/ext_model/Pod"
+import { Pod } from '@atomist/cortex/Pod'
 
 @EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
     new PathExpression<GraphNode, GraphNode>(
-    `/Pod
-        [/createdBy::Spec()/owns::Environment()]
-        [/uses::Container()/isTagged::Tag()/isTagged::Commit()]`))
+    `/Pod[/creates::Spec()]`))
 @Tags("kubernetes")
 class Deployed implements HandleEvent<Pod, GraphNode> {
     handle(event: Match<Pod, GraphNode>): Plan {

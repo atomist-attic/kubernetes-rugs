@@ -1,12 +1,12 @@
 import { Given,When,Then, EventHandlerScenarioWorld } from "@atomist/rug/test/handler/Core"
 import { Project } from "@atomist/rug/model/Project"
-import { Build } from "@atomist/rug/ext_model_stub/Build"
-import { Commit } from "@atomist/rug/ext_model_stub/Commit"
-import { Tag } from "@atomist/rug/ext_model_stub/Tag"
-import { Container } from "@atomist/rug/ext_model_stub/Container"
-import { Pod } from "@atomist/rug/ext_model_stub/Pod"
-import { Spec } from "@atomist/rug/ext_model_stub/Spec"
-import { Environment } from "@atomist/rug/ext_model_stub/Environment"
+import { Build } from "@atomist/cortex/stub/Build"
+import { Commit } from "@atomist/cortex/stub/Commit"
+import { Tag } from "@atomist/cortex/stub/Tag"
+import { Container } from "@atomist/cortex/stub/Container"
+import { Pod } from "@atomist/cortex/stub/Pod"
+import { Spec } from "@atomist/cortex/stub/Spec"
+import { Environment } from "@atomist/cortex/stub/Environment"
 
 When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
    world.registerHandler("pod-deployed")
@@ -29,7 +29,7 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
    pod.withUses(container)
    spec.withCreates(pod)
 
-   world.sendEvent(pod);
+   world.sendEvent(pod)
 })
 
 Then("we should receive a message", (p: Project, world: EventHandlerScenarioWorld) => {
