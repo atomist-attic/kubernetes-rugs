@@ -5,6 +5,7 @@ import { EventHandler, Tags } from '@atomist/rug/operations/Decorators'
 import * as query from '@atomist/rugs/util/tree/QueryByExample'
 import { Pod } from "@atomist/cortex/stub/Pod"
 import { Container } from "@atomist/cortex/stub/Container"
+import { Tag } from "@atomist/cortex/stub/Tag"
 
 /*
 new PathExpression<GraphNode, GraphNode>(
@@ -13,27 +14,23 @@ new PathExpression<GraphNode, GraphNode>(
         */
 
 @EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
-     query.forRoot(new Pod().withState("Started")
- .withUses(new Container() )))
+     query.forRoot(
+         new Pod().withState("Started")
+            .withUses(new Container()
+                .withIsTagged(new Tag())
+)))
 @Tags("kubernetes")
 class Deployed implements HandleEvent<Pod, GraphNode> {
     handle(event: Match<Pod, GraphNode>): Plan {
         let pod: Pod = event.root()
-
-        // it seems that the .createBy() cannot be called on Pod
-        /*
-        if ( pod.createdBy().owns().name() != 'prod.atomist.services.' ) {
-            return
-        }
-        */
 
         let plan: Plan = new Plan()
 
         let message: Message = new Message("deployed")
         plan.add(message)
 
-
         return plan
     }
 }
+
 export const deployed = new Deployed()
