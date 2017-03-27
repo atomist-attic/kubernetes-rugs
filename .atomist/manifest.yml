@@ -1,0 +1,9 @@
+group: "atomist-rugs"
+artifact: "kubernetes-handlers"
+version: "0.1.0"
+requires: "[0.17.3,1.0.0)"
+excludes:
+  editors:
+    - "TypeScriptEditor"
+  generators:
+    - "TypeScriptGenerator"

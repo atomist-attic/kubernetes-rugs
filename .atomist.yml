@@ -1,0 +1,15 @@
+---
+kind: "operation"
+client: "rug-cli 0.28.0"
+generator:
+  name: "NewStarterRugProject"
+  group: "atomist-rugs"
+  artifact: "rug-editors"
+  version: "0.20.0"
+  origin:
+    repo: "https://github.com/atomist-rugs/rug-editors.git"
+    branch: "9155568aae57327518bc4f6b31c2ee3793c2773e"
+    sha: "9155568"
+  parameters:
+    - "project_name": "kubernetes-handlers"
+
