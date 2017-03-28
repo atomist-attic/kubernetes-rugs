@@ -5,7 +5,9 @@
 
 [rug]: http://docs.atomist.com/
 
-This [Rug][rug] project contains handlers for Kubernetes.
+A set of [Rug][rug] _handlers_ for Kubernetes.
+
+[rug]: https://github.com/atomist/rug
 
 ## Development
 
