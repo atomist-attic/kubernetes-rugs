@@ -1,5 +1,4 @@
 import { Given, When, Then, EventHandlerScenarioWorld } from "@atomist/rug/test/handler/Core"
-import { Project } from "@atomist/rug/model/Project"
 import { Message } from "@atomist/rug/operations/Handlers"
 import { Build } from "@atomist/cortex/stub/Build"
 import { Commit } from "@atomist/cortex/stub/Commit"
@@ -80,15 +79,15 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
     world.sendEvent(pod)
 })
 
-Then("the handler is triggered", (p: Project, world: EventHandlerScenarioWorld) => {
+Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
     return world.plan() != null
 })
 
-Then("the committer should receive a direct message", (p: Project, world: EventHandlerScenarioWorld) => {
+Then("the committer should receive a direct message", (world: EventHandlerScenarioWorld) => {
     const message: Message = world.plan().messages[0]
     return message.channelId == slackChannelAndId
 })
 
-Then("we should receive a message", (p: Project, world: EventHandlerScenarioWorld) => {
+Then("we should receive a message", (world: EventHandlerScenarioWorld) => {
     return world.plan().messages.length == 1
 })
