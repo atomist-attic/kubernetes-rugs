@@ -36,7 +36,7 @@ class CrashLooping implements HandleEvent<Pod, GraphNode> {
         
         const plan = new Plan
 
-        const message = new Message("Pod Crash Looping")
+        const message = new Message(`${pod.name()} is crash looping`)
 
         message.channelId = chatId
 

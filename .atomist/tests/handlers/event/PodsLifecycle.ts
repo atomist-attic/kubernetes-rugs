@@ -12,6 +12,11 @@ import { Person } from "@atomist/cortex/stub/Person"
 import { ChatId } from "@atomist/cortex/stub/ChatId"
 import { GitHubId } from "@atomist/cortex/stub/GitHubId"
 
+const slackChannelAndId = "me"
+const targetEnvironmentDomain = "prod.atomist.services."
+const kubernetesCrashLoopingState = "BackOff"
+const kubernetesDeployedState = "Started"
+
 Given("pod deployed handler registered", (world: EventHandlerScenarioWorld) => {
     world.registerHandler("pod-deployed")  
 })
@@ -22,66 +27,66 @@ Given("pod crash looping handler registered", (world: EventHandlerScenarioWorld)
 
 When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
    
-   let chatId: ChatId = new ChatId
-   chatId.withId("me")
+    const chatId: ChatId = new ChatId
+    chatId.withId(slackChannelAndId)
    
-   let person: Person = new Person
-   person.withHasChatIdentity(chatId)
+    const person: Person = new Person
+    person.withHasChatIdentity(chatId)
 
-   let gitHubId: GitHubId = new GitHubId
-   gitHubId.withOf(person)
+    const gitHubId: GitHubId = new GitHubId
+    gitHubId.withOf(person)
 
-   let commit: Commit = new Commit
-   let tag: Tag = new Tag
-   commit.withIsTagged([tag])
-   commit.withAuthor(gitHubId)
-   tag.withOnCommit(commit)
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
+    commit.withAuthor(gitHubId)
+    tag.withOnCommit(commit)
 
-   let container: Container = new Container
-   container.withIsTagged(tag)
+    const container: Container = new Container
+    container.withIsTagged(tag)
 
-   let environment: Environment = new Environment
-   environment.withDomainName("prod.atomist.services.")
+    const environment: Environment = new Environment
+    environment.withDomainName(targetEnvironmentDomain)
 
-   let spec: Spec = new Spec
-   environment.withOwns(spec)
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
 
-   let pod: Pod = new Pod
-   pod.withState("BackOff").withUses(container)
-   spec.withCreates([pod])
+    const pod: Pod = new Pod
+    pod.withState(kubernetesCrashLoopingState).withUses(container)
+    spec.withCreates([pod])
 
-   world.sendEvent(pod)
+    world.sendEvent(pod)
 })
 
 When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
 
-   let commit: Commit = new Commit
-   let tag: Tag = new Tag
-   commit.withIsTagged([tag])
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
 
-   let container: Container = new Container
-   container.withIsTagged(tag)
+    const container: Container = new Container
+    container.withIsTagged(tag)
 
-   let environment: Environment = new Environment
-   environment.withDomainName("prod.atomist.services.")
+    const environment: Environment = new Environment
+    environment.withDomainName(targetEnvironmentDomain)
 
-   let spec: Spec = new Spec
-   environment.withOwns(spec)
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
 
-   let pod: Pod = new Pod;
-   pod.withState("Started").withUses(container)
-   spec.withCreates([pod])
+    const pod: Pod = new Pod;
+    pod.withState(kubernetesDeployedState).withUses(container)
+    spec.withCreates([pod])
 
-   world.sendEvent(pod)
+    world.sendEvent(pod)
 })
 
 Then("the handler is called", (p: Project, world: EventHandlerScenarioWorld) => {
-  return world.plan() != null
+    return world.plan() != null
 })
 
 Then("the committer should receive a direct message", (p: Project, world: EventHandlerScenarioWorld) => {
-    let message: Message = world.plan().messages[0]
-    return message.channelId == "me"
+    const message: Message = world.plan().messages[0]
+    return message.channelId == slackChannelAndId
 })
 
 Then("we should receive a message", (p: Project, world: EventHandlerScenarioWorld) => {
