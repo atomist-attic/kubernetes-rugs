@@ -80,7 +80,7 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
     world.sendEvent(pod)
 })
 
-Then("the handler is called", (p: Project, world: EventHandlerScenarioWorld) => {
+Then("the handler is triggered", (p: Project, world: EventHandlerScenarioWorld) => {
     return world.plan() != null
 })
 
