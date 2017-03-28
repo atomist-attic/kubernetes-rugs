@@ -1,87 +1,11 @@
-# kubernetes-handlers
+# Kubernetes Handlers
 
 [![Build Status](https://travis-ci.org/atomist-rugs/kubernetes-handlers.svg?branch=master)](https://travis-ci.org/atomist-rugs/kubernetes-handlers)
 [![Slack Status](https://join.atomist.com/badge.svg)](https://join.atomist.com)
 
 [rug]: http://docs.atomist.com/
 
-This [Rug][rug] project contains Atomist Rug archive project.
-
-## Rugs
-
-
-### AddLocalEditor
-
-The AddLocalEditor editor adds an editor for modifying the local
-project, initiating a Rug archive if needed.
-
-#### Prerequisites
-
-A source code project.
-
-#### Parameters
-
-This Rug takes following parameters.
-
-Name | Required | Default | Description
------|----------|---------|------------
-`editorName` | Yes | | Name of the editor to add, it should start with a capital letter and contain only alphanumeric characters
-`description` | No | "an editor for modifying this project" | A short description of what the editor will do
-
-#### Running
-
-Run this Rug as follows:
-
-```
-$ cd project/directory
-$ rug edit atomist-rugs:kubernetes-handlers:AddLocalEditor \
-    editorName=MyLocalEditor \
-    description='does something useful'
-```
-
-This will add a Rug editor as `.atomist/editors/MyLocalEditor.ts`.  If
-the project is currently set up for Atomist, it will also create the
-`.atomist` directory with appropriate initial contents like the
-`manifest.yml` and `package.json` files and the Rug TypeScript typings
-in the `node_modules` directory.
-
-### MyFirstEditor
-
-A sample Rug TypeScript editor to start playing with.
-
-#### Prerequisites
-
-Put your editor prerequisites here.
-
-#### Parameters
-
-This Rug takes following parameters.
-
-Name | Required | Default | Description
------|----------|---------|------------
-`inputParameter` | Yes | | Example input parameter
-
-#### Running
-
-Run this Rug as follows:
-
-```
-$ cd project/directory
-$ rug edit atomist-rugs:rug-editors:MyFirstEditor \
-    inputParameter='some value'
-```
-
-Explain what your editor does here.
-
-## Support
-
-General support questions should be discussed in the `#support`
-channel on our community Slack team
-at [atomist-community.slack.com][slack].
-
-If you find a problem, please create an [issue][].
-
-[issue]: https://github.com/atomist-rugs/kubernetes-handlers/issues
+This [Rug][rug] project contains handlers for Kubernetes.
 
 ## Development
 
