@@ -1,4 +1,4 @@
-import { Given,When,Then, EventHandlerScenarioWorld } from "@atomist/rug/test/handler/Core"
+import { Given, When, Then, EventHandlerScenarioWorld } from "@atomist/rug/test/handler/Core"
 import { Project } from "@atomist/rug/model/Project"
 import { Message } from "@atomist/rug/operations/Handlers"
 import { Build } from "@atomist/cortex/stub/Build"
