@@ -6,12 +6,6 @@ import { Pod } from "@atomist/cortex/stub/Pod"
 import { Container } from "@atomist/cortex/stub/Container"
 import { Tag } from "@atomist/cortex/stub/Tag"
 
-/*
-new PathExpression<GraphNode, GraphNode>(
-    `/Pod()[@state="Started"]
-        [/uses::Container()/isTagged::Tag()]`)
-        */
-
 @EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
      query.forRoot(
          new Pod().withState("Started")
