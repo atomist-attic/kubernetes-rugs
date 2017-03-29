@@ -20,15 +20,12 @@ new PathExpression<GraphNode, GraphNode>(
 )))
 @Tags("kubernetes")
 class Deployed implements HandleEvent<Pod, GraphNode> {
-    handle(event: Match<Pod, GraphNode>): Plan {
-        let pod: Pod = event.root()
-
-        let plan: Plan = new Plan()
+    handle(event: Match<Pod, GraphNode>): Message {
+        const pod: Pod = event.root()
 
         let message: Message = new Message("deployed")
-        plan.add(message)
 
-        return plan
+        return message
     }
 }
 

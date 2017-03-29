@@ -23,7 +23,7 @@ import { ChatId } from "@atomist/cortex/stub/ChatId"
 )
 @Tags("kubernetes")
 class CrashLooping implements HandleEvent<Pod, GraphNode> {
-    handle(event: Match<Pod, GraphNode>): Plan {
+    handle(event: Match<Pod, GraphNode>): Message {
         
         const pod: Pod = event.root()
         const container = pod.uses()
@@ -33,16 +33,12 @@ class CrashLooping implements HandleEvent<Pod, GraphNode> {
         const person = author.of()
         const chatIdentity = person.hasChatIdentity()
         const chatId = chatIdentity.id()
-        
-        const plan = new Plan
 
         const message = new Message(`${pod.name()} is crash looping`)
 
         message.channelId = chatId
 
-        plan.add(message)
-
-        return plan
+        return message
     }
 }
 
