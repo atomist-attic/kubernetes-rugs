@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@atomist/rug": "0.19.0",
-    "@atomist/cortex": "0.19.0",
-    "@atomist/rugs": "0.0.9"
+    "@atomist/rugs": "0.0.13"
   }
 }
