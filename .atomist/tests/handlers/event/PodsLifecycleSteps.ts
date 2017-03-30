@@ -89,6 +89,37 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
     world.sendEvent(pod)
 })
 
+When("a container image was pulled", (world: EventHandlerScenarioWorld) => {
+
+    const chat: ChatChannel = new ChatChannel
+    chat.withId("C46HD498")
+
+    const repo: Repo = new Repo
+    repo.withChannel([chat])
+
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
+    commit.withOn(repo)
+    tag.withOnCommit(commit)
+
+    const container: Container = new Container
+    container.withIsTagged(tag)
+    container.withImage("blah")
+
+    const environment: Environment = new Environment
+    environment.withDomainName(targetEnvironmentDomain)
+
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
+
+    const pod: Pod = new Pod;
+    pod.withState(kubernetesDeployedState).withUses(container)
+    spec.withCreates([pod])
+
+    world.sendEvent(pod)
+})
+
 Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
     return world.plan() != null
 })

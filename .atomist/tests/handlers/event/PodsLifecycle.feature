@@ -9,6 +9,12 @@ Feature: Kubernetes Pods Lifecycle
     Then the handler is triggered
     Then we should receive a message
 
+  Scenario: Container image pulled
+    Given pod deployed handler registered
+    When a container image was pulled
+    Then the handler is triggered
+    Then we should receive a message
+
   Scenario: Crash Looping Pods
     Given pod crash looping handler registered
     When crash looping occurs
