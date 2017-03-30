@@ -10,6 +10,8 @@ import { Environment } from "@atomist/cortex/stub/Environment"
 import { Person } from "@atomist/cortex/stub/Person"
 import { ChatId } from "@atomist/cortex/stub/ChatId"
 import { GitHubId } from "@atomist/cortex/stub/GitHubId"
+import { Repo } from "@atomist/cortex/stub/Repo"
+import { ChatChannel } from "@atomist/cortex/stub/ChatChannel"
 
 const slackChannelAndId = "me"
 const targetEnvironmentDomain = "prod.atomist.services."
@@ -59,9 +61,17 @@ When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
 
 When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
 
+    const chat: ChatChannel = new ChatChannel
+    chat.withId("C46HD498")
+
+    const repo: Repo = new Repo
+    repo.withChannel([chat])
+
     const commit: Commit = new Commit
     const tag: Tag = new Tag
     commit.withIsTagged([tag])
+    commit.withOn(repo)
+    tag.withOnCommit(commit)
 
     const container: Container = new Container
     container.withIsTagged(tag)
