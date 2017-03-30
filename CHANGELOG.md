@@ -7,7 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist-rugs/kubernetes-handlers/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/atomist-rugs/kubernetes-handlers/compare/0.4.0...HEAD
+
+## [0.4.0] - 2017-03-30
+
+[0.4.0]: https://github.com/atomist-rugs/kubernetes-handlers/tree/0.4.0
+
+### Changed
+
+-   Reverting to raw path expression until reverse relationships aliases are available (tests can't run until then)
+
+## [0.3.0] - 2017-03-30
+
+[0.3.0]: https://github.com/atomist-rugs/kubernetes-handlers/tree/0.3.0
+
+### Added
+
+-   Unhealthy pod event
+-   Terminating pod event
 
 ## [0.2.0] - 2017-03-30
 

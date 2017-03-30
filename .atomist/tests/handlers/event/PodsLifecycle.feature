@@ -10,8 +10,20 @@ Feature: Kubernetes Pods Lifecycle
     Then we should receive a message
 
   Scenario: Container image pulled
-    Given pod deployed handler registered
+    Given pod container image pulled handler registered
     When a container image was pulled
+    Then the handler is triggered
+    Then we should receive a message
+
+  Scenario: Pod terminating
+    Given pod terminating handler registered
+    When a pod is terminating
+    Then the handler is triggered
+    Then we should receive a message
+
+  Scenario: Pod unhealthy
+    Given pod unhealthy handler registered
+    When a pod is unhealthy
     Then the handler is triggered
     Then we should receive a message
 

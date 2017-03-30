@@ -11,7 +11,13 @@ import { Person } from "@atomist/cortex/stub/Person"
 import { ChatId } from "@atomist/cortex/stub/ChatId"
 
 @EventHandler("pod-crash-looping", "Handle Kubernetes Pod Crash Looping events", 
-     query.forRoot(
+     "/Pod()[@state='BackOff'][/uses::Container()[/isTagged::Tag()[/isTagged::Commit()[/author::GitHubId()[/hasGithubIdentity::Person()[/hasChatIdentity::ChatId()]]]]]]"
+)
+@Tags("kubernetes")
+class CrashLooping implements HandleEvent<Pod, GraphNode> {
+    handle(event: Match<Pod, GraphNode>): Plan {
+
+        console.log(query.forRoot(
          new Pod().withState("BackOff")
            .withUses(new Container()
              .withIsTagged(new Tag()
@@ -19,11 +25,7 @@ import { ChatId } from "@atomist/cortex/stub/ChatId"
                  .withAuthor(new GitHubId()
                    .withOf(new Person()
                      .withHasChatIdentity(new ChatId())
-                   ))))))
-)
-@Tags("kubernetes")
-class CrashLooping implements HandleEvent<Pod, GraphNode> {
-    handle(event: Match<Pod, GraphNode>): Message {
+                   )))))).expression)
         
         const pod: Pod = event.root()
         const container = pod.uses()
@@ -38,7 +40,7 @@ class CrashLooping implements HandleEvent<Pod, GraphNode> {
 
         message.channelId = chatId
 
-        return message
+        return Plan.ofMessage(message)
     }
 }
 

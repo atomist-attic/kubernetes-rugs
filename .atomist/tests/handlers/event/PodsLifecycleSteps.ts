@@ -17,6 +17,9 @@ const slackChannelAndId = "me"
 const targetEnvironmentDomain = "prod.atomist.services."
 const kubernetesCrashLoopingState = "BackOff"
 const kubernetesDeployedState = "Started"
+const kubernetesPulledState = "Pulled"
+const kubernetesUnhealthyState = "Unhealthy"
+const kubernetesKillingState = "Killing"
 
 Given("pod deployed handler registered", (world: EventHandlerScenarioWorld) => {
     world.registerHandler("pod-deployed")  
@@ -24,6 +27,18 @@ Given("pod deployed handler registered", (world: EventHandlerScenarioWorld) => {
 
 Given("pod crash looping handler registered", (world: EventHandlerScenarioWorld) => {
     world.registerHandler("pod-crash-looping") 
+})
+
+Given("pod container image pulled handler registered", (world: EventHandlerScenarioWorld) => {
+    world.registerHandler("pod-container-image-pulled")  
+})
+
+Given("pod terminating handler registered", (world: EventHandlerScenarioWorld) => {
+    world.registerHandler("pod-terminating")  
+})
+
+Given("pod unhealthy handler registered", (world: EventHandlerScenarioWorld) => {
+    world.registerHandler("pod-unhealthy")  
 })
 
 When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
@@ -56,6 +71,8 @@ When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
     pod.withState(kubernetesCrashLoopingState).withUses(container)
     spec.withCreates([pod])
 
+    pod.withState("BackOff")
+
     world.sendEvent(pod)
 })
 
@@ -86,6 +103,8 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
     pod.withState(kubernetesDeployedState).withUses(container)
     spec.withCreates([pod])
 
+    pod.withState("Started")
+
     world.sendEvent(pod)
 })
 
@@ -114,7 +133,70 @@ When("a container image was pulled", (world: EventHandlerScenarioWorld) => {
     environment.withOwns(spec)
 
     const pod: Pod = new Pod;
-    pod.withState(kubernetesDeployedState).withUses(container)
+    pod.withState(kubernetesPulledState).withUses(container)
+    spec.withCreates([pod])
+
+
+    world.sendEvent(pod)
+})
+
+When("a pod is terminating", (world: EventHandlerScenarioWorld) => {
+
+    const chat: ChatChannel = new ChatChannel
+    chat.withId("C46HD498")
+
+    const repo: Repo = new Repo
+    repo.withChannel([chat])
+
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
+    commit.withOn(repo)
+    tag.withOnCommit(commit)
+
+    const container: Container = new Container
+    container.withIsTagged(tag)
+    container.withImage("blah")
+
+    const environment: Environment = new Environment
+    environment.withDomainName(targetEnvironmentDomain)
+
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
+
+    const pod: Pod = new Pod;
+    pod.withState(kubernetesKillingState).withUses(container)
+    spec.withCreates([pod])
+
+    world.sendEvent(pod)
+})
+
+When("a pod is unhealthy", (world: EventHandlerScenarioWorld) => {
+
+    const chat: ChatChannel = new ChatChannel
+    chat.withId("C46HD498")
+
+    const repo: Repo = new Repo
+    repo.withChannel([chat])
+
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
+    commit.withOn(repo)
+    tag.withOnCommit(commit)
+
+    const container: Container = new Container
+    container.withIsTagged(tag)
+    container.withImage("blah")
+
+    const environment: Environment = new Environment
+    environment.withDomainName(targetEnvironmentDomain)
+
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
+
+    const pod: Pod = new Pod;
+    pod.withState(kubernetesUnhealthyState).withUses(container)
     spec.withCreates([pod])
 
     world.sendEvent(pod)
