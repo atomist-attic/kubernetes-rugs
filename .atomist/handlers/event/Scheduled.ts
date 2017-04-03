@@ -18,27 +18,20 @@ import { ChatChannel } from "@atomist/cortex/stub/ChatChannel"
                     [/on::Repo()/channel::ChatChannel()]]]]`
 )
 @Tags("kubernetes")
-class Scheduled implements HandleEvent<Pod, GraphNode> {
-    handle(event: Match<Pod, GraphNode>): Plan {
-            try {
-        const pod: Pod = event.root()
+class Scheduled implements HandleEvent<Pod, Pod> {
+    handle(event: Match<Pod, Pod>): Plan {
+        const pod: Pod = event.root() as Pod
         const container: Container = pod.uses()
         const commit: Commit = container.isTagged().onCommit()
         const repo: Repo = commit.on()
 
-        const cid = "commit_event/" + repo.owner() + "/" + repo + "/" + commit.sha()
+        const cid: string = "commit_event/" + repo.owner() + "/" + repo.name() + "/" + commit.sha()
 
-        let message: Message = new Message(`${pod.name()} has been scheduled`)
-        message.withCorrelationId(cid)
+        let message: Message = new Message(`Pod '${pod.name()}' has been scheduled`)
+        //message.withCorrelationId(cid)
         message.withNode(pod)
 
         return Plan.ofMessage(message)
-    }
-            catch (e) {
-                console.log((<Error>e).message)
-            }
-
-        return Plan.ofMessage(new Message("boom"))
     }
 }
 

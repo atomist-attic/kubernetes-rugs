@@ -10,13 +10,26 @@ import { Repo } from "@atomist/cortex/stub/Repo"
 import { ChatChannel } from "@atomist/cortex/stub/ChatChannel"
 
 @EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
-     "/Pod()[@state='Started'][/uses::Container()[/isTagged::Tag()[/isTagged::Commit()[/on::Repo()]]]]")
+     `/Pod()
+        [@state='Started']
+        [/uses::Container()
+            [/isTagged::Tag()
+                [/isTagged::Commit()
+                    [/on::Repo()/channel::ChatChannel()]]]]`
+)
 @Tags("kubernetes")
-class Deployed implements HandleEvent<Pod, GraphNode> {
-    handle(event: Match<Pod, GraphNode>): Plan {
-        const pod: Pod = event.root()
+class Deployed implements HandleEvent<Pod, Pod> {
+    handle(event: Match<Pod, Pod>): Plan {
+        const pod: Pod = event.root() as Pod
+        const container: Container = pod.uses()
+        const commit: Commit = container.isTagged().onCommit()
+        const repo: Repo = commit.on()
 
-        let message: Message = new Message(`${pod.name()} was started`)
+        const cid: string = "commit_event/" + repo.owner() + "/" + repo.name() + "/" + commit.sha()
+
+        let message: Message = new Message(`Pod '${pod.name()}' was deployed and started`)
+        //message.withCorrelationId(cid)
+        message.withNode(pod)
 
         return Plan.ofMessage(message)
     }

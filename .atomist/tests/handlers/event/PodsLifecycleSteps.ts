@@ -13,13 +13,38 @@ import { GitHubId } from "@atomist/cortex/stub/GitHubId"
 import { Repo } from "@atomist/cortex/stub/Repo"
 import { ChatChannel } from "@atomist/cortex/stub/ChatChannel"
 
-const slackChannelAndId = "me"
-const targetEnvironmentDomain = "prod.atomist.services."
-const kubernetesCrashLoopingState = "BackOff"
-const kubernetesDeployedState = "Started"
-const kubernetesPulledState = "Pulled"
-const kubernetesUnhealthyState = "Unhealthy"
-const kubernetesKillingState = "Killing"
+
+function buildPodEvent(state: string, domain: string = "prod.atomist.services."): Pod {
+    const chatId: ChatId = new ChatId
+    chatId.withId("me")
+   
+    const person: Person = new Person
+    person.withHasChatIdentity(chatId)
+
+    const gitHubId: GitHubId = new GitHubId
+    gitHubId.withOf(person)
+
+    const commit: Commit = new Commit
+    const tag: Tag = new Tag
+    commit.withIsTagged([tag])
+    commit.withAuthor(gitHubId)
+    tag.withOnCommit(commit)
+
+    const container: Container = new Container
+    container.withIsTagged(tag)
+
+    const environment: Environment = new Environment
+    environment.withDomainName(domain)
+
+    const spec: Spec = new Spec
+    environment.withOwns(spec)
+
+    const pod: Pod = new Pod
+    pod.withState(state).withUses(container)
+    spec.withCreates([pod])
+
+    return pod
+}
 
 Given("pod deployed handler registered", (world: EventHandlerScenarioWorld) => {
     world.registerHandler("pod-deployed")  
@@ -42,162 +67,22 @@ Given("pod unhealthy handler registered", (world: EventHandlerScenarioWorld) => 
 })
 
 When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
-   
-    const chatId: ChatId = new ChatId
-    chatId.withId(slackChannelAndId)
-   
-    const person: Person = new Person
-    person.withHasChatIdentity(chatId)
-
-    const gitHubId: GitHubId = new GitHubId
-    gitHubId.withOf(person)
-
-    const commit: Commit = new Commit
-    const tag: Tag = new Tag
-    commit.withIsTagged([tag])
-    commit.withAuthor(gitHubId)
-    tag.withOnCommit(commit)
-
-    const container: Container = new Container
-    container.withIsTagged(tag)
-
-    const environment: Environment = new Environment
-    environment.withDomainName(targetEnvironmentDomain)
-
-    const spec: Spec = new Spec
-    environment.withOwns(spec)
-
-    const pod: Pod = new Pod
-    pod.withState(kubernetesCrashLoopingState).withUses(container)
-    spec.withCreates([pod])
-
-    pod.withState("BackOff")
-
+    const pod: Pod = buildPodEvent("BackOff")
     world.sendEvent(pod)
 })
 
 When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
-
-    const chat: ChatChannel = new ChatChannel
-    chat.withId("C46HD498")
-
-    const repo: Repo = new Repo
-    repo.withChannel([chat])
-
-    const commit: Commit = new Commit
-    const tag: Tag = new Tag
-    commit.withIsTagged([tag])
-    commit.withOn(repo)
-    tag.withOnCommit(commit)
-
-    const container: Container = new Container
-    container.withIsTagged(tag)
-
-    const environment: Environment = new Environment
-    environment.withDomainName(targetEnvironmentDomain)
-
-    const spec: Spec = new Spec
-    environment.withOwns(spec)
-
-    const pod: Pod = new Pod;
-    pod.withState(kubernetesDeployedState).withUses(container)
-    spec.withCreates([pod])
-
-    pod.withState("Started")
-
+    const pod: Pod = buildPodEvent("Started")
     world.sendEvent(pod)
 })
 
 When("a container image was pulled", (world: EventHandlerScenarioWorld) => {
-
-    const chat: ChatChannel = new ChatChannel
-    chat.withId("C46HD498")
-
-    const repo: Repo = new Repo
-    repo.withChannel([chat])
-
-    const commit: Commit = new Commit
-    const tag: Tag = new Tag
-    commit.withIsTagged([tag])
-    commit.withOn(repo)
-    tag.withOnCommit(commit)
-
-    const container: Container = new Container
-    container.withIsTagged(tag)
-    container.withImage("blah")
-
-    const environment: Environment = new Environment
-    environment.withDomainName(targetEnvironmentDomain)
-
-    const spec: Spec = new Spec
-    environment.withOwns(spec)
-
-    const pod: Pod = new Pod;
-    pod.withState(kubernetesPulledState).withUses(container)
-    spec.withCreates([pod])
-
-
+    const pod: Pod = buildPodEvent("Pulled")
     world.sendEvent(pod)
 })
 
 When("a pod is terminating", (world: EventHandlerScenarioWorld) => {
-
-    const chat: ChatChannel = new ChatChannel
-    chat.withId("C46HD498")
-
-    const repo: Repo = new Repo
-    repo.withChannel([chat])
-
-    const commit: Commit = new Commit
-    const tag: Tag = new Tag
-    commit.withIsTagged([tag])
-    commit.withOn(repo)
-    tag.withOnCommit(commit)
-
-    const container: Container = new Container
-    container.withIsTagged(tag)
-    container.withImage("blah")
-
-    const environment: Environment = new Environment
-    environment.withDomainName(targetEnvironmentDomain)
-
-    const spec: Spec = new Spec
-    environment.withOwns(spec)
-
-    const pod: Pod = new Pod;
-    pod.withState(kubernetesKillingState).withUses(container)
-    spec.withCreates([pod])
-
-    world.sendEvent(pod)
-})
-
-When("a pod is unhealthy", (world: EventHandlerScenarioWorld) => {
-
-    const chat: ChatChannel = new ChatChannel
-    chat.withId("C46HD498")
-
-    const repo: Repo = new Repo
-    repo.withChannel([chat])
-
-    const commit: Commit = new Commit
-    const tag: Tag = new Tag
-    commit.withIsTagged([tag])
-    commit.withOn(repo)
-    tag.withOnCommit(commit)
-
-    const container: Container = new Container
-    container.withIsTagged(tag)
-    container.withImage("blah")
-
-    const environment: Environment = new Environment
-    environment.withDomainName(targetEnvironmentDomain)
-
-    const spec: Spec = new Spec
-    environment.withOwns(spec)
-
-    const pod: Pod = new Pod;
-    pod.withState(kubernetesUnhealthyState).withUses(container)
-    spec.withCreates([pod])
+    const pod: Pod = buildPodEvent("Killing")
 
     world.sendEvent(pod)
 })
@@ -208,7 +93,7 @@ Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
 
 Then("the committer should receive a direct message", (world: EventHandlerScenarioWorld) => {
     const message: Message = world.plan().messages[0]
-    return message.channelId == slackChannelAndId
+    return message.channelId == "me"
 })
 
 Then("we should receive a message", (world: EventHandlerScenarioWorld) => {

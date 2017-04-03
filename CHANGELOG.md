@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist-rugs/kubernetes-handlers/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/atomist-rugs/kubernetes-handlers/compare/0.9.0...HEAD
+
+## [0.9.0] - 2017-04-02
+
+[0.9.0]: https://github.com/atomist-rugs/kubernetes-handlers/tree/0.9.0
+
+### Changed
+
+-   Various misc fixes and tuning
 
 ## [0.4.0] - 2017-03-30
 
