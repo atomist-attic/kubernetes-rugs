@@ -1,4 +1,4 @@
-import { HandleEvent, LifecycleMessage, Plan } from '@atomist/rug/operations/Handlers'
+import { HandleEvent, ChannelAddress, DirectedMessage, LifecycleMessage, MessageMimeTypes, ResponseMessage, Plan } from '@atomist/rug/operations/Handlers'
 import { GraphNode, Match, PathExpression } from '@atomist/rug/tree/PathExpression'
 import { EventHandler, Tags } from '@atomist/rug/operations/Decorators'
 import * as query from '@atomist/rugs/util/tree/QueryByExample'
@@ -7,10 +7,11 @@ import { DockerImage } from "@atomist/cortex/DockerImage"
 import { Tag } from "@atomist/cortex/Tag"
 import { Commit } from "@atomist/cortex/Commit"
 import { Repo } from "@atomist/cortex/Repo"
+import { ChatChannel } from "@atomist/cortex/ChatChannel"
 
-@EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
+@EventHandler("pod-unhealthy", "Handle Kubernetes Pod unealthy events", 
      `/K8Pod()
-        [@state='Started']
+        [@state='Unhealthy']
         [/images::DockerImage()
             [/tag::Tag()
                 [/commit::Commit()
@@ -21,7 +22,7 @@ import { Repo } from "@atomist/cortex/Repo"
                             [/repo::Repo()]]]]]]`
 )
 @Tags("kubernetes")
-class Deployed implements HandleEvent<K8Pod, K8Pod> {
+class Unhealthy implements HandleEvent<K8Pod, K8Pod> {
     handle(event: Match<K8Pod, K8Pod>): Plan {
         const pod: K8Pod = event.root() as K8Pod
         const image: DockerImage = pod.images[0]
@@ -35,4 +36,4 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
     }
 }
 
-export const deployed = new Deployed()
+export const unhealthy = new Unhealthy()
