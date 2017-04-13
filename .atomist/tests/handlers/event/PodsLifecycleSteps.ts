@@ -71,24 +71,8 @@ function buildPodEvent(state: string, domain: string = "prod.atomist.services.")
     return pod
 }
 
-Given("pod deployed handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-deployed")  
-})
-
-Given("pod crash looping handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-crash-looping") 
-})
-
-Given("pod container image pulled handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-container-image-pulled")  
-})
-
-Given("pod terminating handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-terminating")  
-})
-
-Given("pod unhealthy handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-unhealthy")  
+Given("pod event handler registered", (world: EventHandlerScenarioWorld) => {
+    world.registerHandler("pod-event")  
 })
 
 When("crash looping occurs", (world: EventHandlerScenarioWorld) => {
