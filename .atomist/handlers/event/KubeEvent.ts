@@ -25,7 +25,7 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
         const pod: K8Pod = event.root() as K8Pod
         const image: DockerImage = pod.images[0]
         const commit: Commit = image.tag.commit
-        const repo: Repo = commit.repo
+        const repo: Repo = image.tag.commit.builds[0].push.repo
 
         const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha
         let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
