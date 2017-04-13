@@ -17,7 +17,7 @@ import { Repo } from "@atomist/cortex/Repo"
                         [/push::Push()
                             [/commits::Commit()/author::GitHubId()
                                 [/person::Person()/chatId::ChatId()]?]
-                            [/repo::Repo()]]]]]]`
+                            [/repo::Repo()/channels::ChatChannel()]]]]]]`
 )
 @Tags("kubernetes")
 class Deployed implements HandleEvent<K8Pod, K8Pod> {
