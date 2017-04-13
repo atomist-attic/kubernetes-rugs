@@ -8,9 +8,8 @@ import { Tag } from "@atomist/cortex/Tag"
 import { Commit } from "@atomist/cortex/Commit"
 import { Repo } from "@atomist/cortex/Repo"
 
-@EventHandler("pod-deployed", "Handle Kubernetes Pod deployment events", 
+@EventHandler("pod-event", "Handle Kubernetes Pod events", 
      `/K8Pod()
-        [@state='Started']
         [/images::DockerImage()
             [/tag::Tag()
                 [/commit::Commit()
