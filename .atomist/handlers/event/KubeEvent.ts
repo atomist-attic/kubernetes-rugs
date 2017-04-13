@@ -29,6 +29,26 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
 
         const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha
         let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
+
+        try {
+            const tag = pod.images[0].tag
+            message.addAction({
+                label: 'Release',
+                instruction: {
+                    kind: "command",
+                    name: { group: "atomist-rugs", artifact: "github-handlers", name: "CreateGitHubRelease" },
+                    parameters: {
+                        owner: repo.owner,
+                        repo: repo.name,
+                        tag: tag.name,
+                        message: "Release created by TravisBuilds"
+                    }
+                }
+            })
+        }
+        catch (e) {
+            console.log((<Error>e).message)
+        }        
        
         return Plan.ofMessage(message)
     }
