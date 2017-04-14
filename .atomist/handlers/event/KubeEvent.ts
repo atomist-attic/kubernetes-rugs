@@ -1,4 +1,4 @@
-import { HandleEvent, LifecycleMessage, Plan } from '@atomist/rug/operations/Handlers'
+import { HandleEvent, DirectedMessage, LifecycleMessage, MessageMimeTypes, Plan, UserAddress } from '@atomist/rug/operations/Handlers'
 import { GraphNode, Match, PathExpression } from '@atomist/rug/tree/PathExpression'
 import { EventHandler, Tags } from '@atomist/rug/operations/Decorators'
 import * as query from '@atomist/rugs/util/tree/QueryByExample'
@@ -27,8 +27,11 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
         const commit: Commit = image.tag.commit
         const repo: Repo = image.tag.commit.builds[0].push.repo
 
+        const plan: Plan = new Plan();
+
         const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha
         let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
+        plan.add(message)
 
         try {
             const tag = pod.images[0].tag
@@ -48,9 +51,17 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
         }
         catch (e) {
             console.log((<Error>e).message)
-        }        
-       
-        return Plan.ofMessage(message)
+        }   
+
+        if (pod.state === "BackOff" ) {
+            const dm: DirectedMessage = new DirectedMessage(
+                `${pod.name} is crash-looping`,
+                new UserAddress(commit.author.person.chatId.screenName),
+                MessageMimeTypes.PLAIN_TEXT);
+            plan.add(dm)
+        }
+
+        return plan
     }
 }
 

@@ -105,8 +105,8 @@ Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
 })
 
 Then("the committer should receive a direct message", (world: EventHandlerScenarioWorld) => {
-    const message = world.plan().messages[0] as DirectedMessage
-    return message.channelNames.length == 1
+    const message = world.plan().messages[1] as DirectedMessage
+    return message.usernames[0] == "me"
 })
 
 Then("we should receive a message", (world: EventHandlerScenarioWorld) => {
