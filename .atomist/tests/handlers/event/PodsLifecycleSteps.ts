@@ -85,8 +85,8 @@ When("a deployment was successful", (world: EventHandlerScenarioWorld) => {
     world.sendEvent(pod)
 })
 
-When("a container image was pulled", (world: EventHandlerScenarioWorld) => {
-    const pod: K8Pod = buildPodEvent("Pulled")
+When("a container image is pulling", (world: EventHandlerScenarioWorld) => {
+    const pod: K8Pod = buildPodEvent("Pulling")
     world.sendEvent(pod)
 })
 
@@ -105,7 +105,7 @@ Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
 })
 
 Then("the committer should receive a direct message", (world: EventHandlerScenarioWorld) => {
-    const message = world.plan().messages[1] as DirectedMessage
+    const message = world.plan().messages[0] as DirectedMessage
     return message.usernames[0] == "me"
 })
 

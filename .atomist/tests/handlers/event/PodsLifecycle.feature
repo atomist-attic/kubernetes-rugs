@@ -9,9 +9,9 @@ Feature: Kubernetes Pods Lifecycle
     Then the handler is triggered
     Then we should receive a message
 
-  Scenario: Container image pulled
+  Scenario: Container image pulling
     Given pod event handler registered
-    When a container image was pulled
+    When a container image is pulling
     Then the handler is triggered
     Then we should receive a message
 
