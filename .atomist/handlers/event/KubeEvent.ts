@@ -27,33 +27,31 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
         const commit: Commit = image.tag.commit
         let plan: Plan = new Plan()
 
-        if (pod.state == "Pulling" || pod.state == "Started" || pod.state == "Unhealthy" || pod.state == "Killing") {
-            const repo: Repo = image.tag.commit.builds[0].push.repo
+        const repo: Repo = image.tag.commit.builds[0].push.repo
 
-            const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha
-            let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
-            plan.add(message)
-
-            try {
-                const tag = pod.images[0].tag
-                message.addAction({
-                    label: 'Release',
-                    instruction: {
-                        kind: "command",
-                        name: { group: "atomist-rugs", artifact: "github-handlers", name: "CreateGitHubRelease" },
-                        parameters: {
-                            owner: repo.owner,
-                            repo: repo.name,
-                            tag: tag.name,
-                            message: "Release created by TravisBuilds"
-                        }
+        const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha
+        let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
+        try {
+            const tag = pod.images[0].tag
+            console.log(`Adding action for tag: ${tag.name}`)
+            message.addAction({
+                label: 'Release',
+                instruction: {
+                    kind: "command",
+                    name: { group: "atomist-rugs", artifact: "github-handlers", name: "CreateGitHubRelease" },
+                    parameters: {
+                        owner: repo.owner,
+                        repo: repo.name,
+                        tag: tag.name,
+                        message: "Release created by TravisBuilds"
                     }
-                })
-            }
-            catch (e) {
-                console.log((<Error>e).message)
-            }   
+                }
+            })
         }
+        catch (e) {
+            console.log((<Error>e).message)
+        }   
+        plan.add(message)
 
         if (pod.state === "BackOff" ) {
             const dm: DirectedMessage = new DirectedMessage(
