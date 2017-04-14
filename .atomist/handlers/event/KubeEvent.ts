@@ -33,7 +33,6 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
         let message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId)
         try {
             const tag = pod.images[0].tag
-            console.log(`Adding action for tag: ${tag.name}`)
             message.addAction({
                 label: 'Release',
                 instruction: {
