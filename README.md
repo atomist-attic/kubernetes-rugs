@@ -9,6 +9,16 @@ A set of [Rug][rug] _handlers_ for Kubernetes.
 
 [rug]: https://github.com/atomist/rug
 
+## Support
+
+General support questions should be discussed in the `#support`
+channel on our community Slack team
+at [atomist-community.slack.com][slack].
+
+If you find a problem, please create an [issue][].
+
+[issue]: https://github.com/atomist/kubernetes-handlers/issues
+
 ## Development
 
 You can build, test, and install the project locally with
