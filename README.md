@@ -1,6 +1,6 @@
 # Atomist 'kubernetes-handlers'
 
-[![Build Status](https://travis-ci.org/atomist-rugs/kubernetes-handlers.svg?branch=master)](https://travis-ci.org/atomist-rugs/kubernetes-handlers)
+[![Build Status](https://travis-ci.org/atomist/kubernetes-handlers.svg?branch=master)](https://travis-ci.org/atomist/kubernetes-handlers)
 [![Slack Status](https://join.atomist.com/badge.svg)](https://join.atomist.com)
 
 [rug]: http://docs.atomist.com/
