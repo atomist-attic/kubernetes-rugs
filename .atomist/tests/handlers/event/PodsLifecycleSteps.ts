@@ -29,6 +29,7 @@ function buildPodEvent(state: string, domain: string = "prod.atomist.services.")
     const tag: Tag = new Tag
     commit.withAuthor(gitHubId)
     tag.withCommit(commit)
+    tag.withName("sometag")
     commit.addTags(tag)
     commit.withSha("b20479edc0c2a202b18814cbd4e95463df04fb83")
 
