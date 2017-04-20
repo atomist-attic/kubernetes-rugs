@@ -19,13 +19,13 @@ Feature: Kubernetes Pods Lifecycle
     Given pod event handler registered
     When a pod is terminating
     Then the handler is triggered
-    Then we should receive a message
+    Then we should not receive anything
 
   Scenario: Pod unhealthy
     Given pod event handler registered
     When a pod is unhealthy
     Then the handler is triggered
-    Then we should receive a message
+    Then we should not receive anything
 
   Scenario: Crash Looping Pods
     Given pod event handler registered

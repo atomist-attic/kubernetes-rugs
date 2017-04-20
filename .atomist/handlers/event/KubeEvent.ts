@@ -23,9 +23,15 @@ import { Repo } from "@atomist/cortex/Repo"
 class Deployed implements HandleEvent<K8Pod, K8Pod> {
     handle(event: Match<K8Pod, K8Pod>): Plan {
         const pod: K8Pod = event.root() as K8Pod
+        let plan: Plan = new Plan()
+
+        // let's not deal with those until we know what we want to do with them
+        if ((pod.state == "Unhealthy") || (pod.state == "Killing")) {
+            return plan;
+        }
+
         const image: DockerImage = pod.images[0]
         const commit: Commit = image.tag.commit
-        let plan: Plan = new Plan()
 
         const repo: Repo = image.tag.commit.builds[0].push.repo
 

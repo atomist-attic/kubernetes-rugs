@@ -104,6 +104,10 @@ Then("the handler is triggered", (world: EventHandlerScenarioWorld) => {
     return world.plan() != null
 })
 
+Then("we should not receive anything", (world: EventHandlerScenarioWorld) => {
+    return world.plan().messages.length === 0 
+})
+
 Then("the committer should receive a direct message", (world: EventHandlerScenarioWorld) => {
     const message = world.plan().messages[1] as DirectedMessage
     return message.usernames[0] == "me"
