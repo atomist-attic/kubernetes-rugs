@@ -1,0 +1,36 @@
+dist: trusty
+sudo: false
+language: java
+jdk:
+- oraclejdk8
+branches:
+  except:
+  - "/\\+travis\\d+$/"
+env:
+  global:
+  - MAVEN_BASE_URL=https://atomist.jfrog.io/atomist
+  - secure: Scr1rNtVFXYxfOwY56FIXRIck3k5NasglGeqgXAHMA/gSIUUiVrqnMfEbq5K8Qtoyor3uhKWdTx7sSwOwubWOhwrPfQSsRdUDbpAWyNWhXaz7QDN/D+Lgj86IV1N7evhbsvK9wiWRI4u/axQbdtEQneFdJ7fI0/LrjPWS5dDBZfXqZTmBMI6d9E2lxXRRFa5ljy32tYQ40ZV8exe5O++g9POI7frn4UkaB7k+HO5WQTfmnRIIVfK61FGqBcPEfgrIb3snXUm2xbQD22UrzqPhcb4gcerJCN/xmJwV9yKOtHUa4lWZqaFCkgpQAkGbsd0x6tH/fUhXu+/8PyQx/ddMhLpkSvQAHnX+o/SlBAB1ur1cLwIhlpPaWr7d/g1dQcYKrgtN3A2tz3/9UT87ZyhYEzqVDsA2AoPVIQ7vaQGx4wKz/vO6ffX1Bb4rStgb/JmRAzJ4DEFKeWbitncYlZsNNpO7W9GX/oy+K2Klz62HScKtZ+3wOwWJGkxgU6G69wkLsRXTa8DLJa8QSLkPq6dS5RHwkKkg8p6Fn7W49zvdYNNn2kFZ4o91eQMj9E38ZoMeTIImq64kxpWkQL1HdE0gBX5yyIBRpNbaD2AMauVxzQYPt3rTbIwXsz15207au/PvcKZHftwzBdD7Xi0y9pzZPfd4+bXbGM334Xt6vjAY5U=
+  - secure: JpAGK+9uOox1zHpZf0BQWt8vVh+Q+wrlhUhOnBjIwCDgGrMlp8xqdZnF0n31WSQk7fDSoP5ezgh7y4Bndh5Dq1wJspv9DICu5yySdINxR6xVYCvK5219kc3pXwKv2rn8WtoTl86RJ+UEhHIZmfgrFBIMKeaJNa2sUvVoB6fMkWi3XhPh5J2kzFN5304G0pGtExq/lc0r66FgcYrFhqepmqlhXY3hqb3/eisoU0pd8lo4Cnx4jROGoOUCD2PZIck+jDai6IHp3A1WSlHvvZh2f8SiUx0f0Q/iEDPnCxIU27JweWAJYfOnEauSULHLKhi2n0utTrqxMuQzOwyB3gN/x6BCREBHl57EoULsWbRrY2xGIagVI005ja1TsVJ6GTBNEsEqNuLS8eVRuO5zDa4qUoac3+qtS+bC99NeATyoDG+aSp8i4OPmUPj0Fw03FIfWdOnXeGRhewJBhOxlqxUaQfL8odj5oqfkw+bOxoaMEeIf1apVTyE3em96Px2AJjYVDZOzbfmSVIptOxWlOZiQ3vAZy4plBhOF9vRsm2V7V9k7nuVI4Eexp25WqBMN+LaKUBFw++Dr/nqkXeW7mhDu/ODHYxdyv/XEWFiL3D7hB//hy/0JSZtHTfRW1rs2u5caYPtrFWDtNBW46WMF7ru674iAU/Rwk0TKyzU1dJFjT5E=
+  - secure: LhU1OJxo9zkiCYAvSqsZBfu4dzRloVwAx9Xwjfi42CHBrLe4xoyb/URI0H9WKkOcEEZROtebFW3pcXh48C9OjdmbZ6XfEjzFIVCjn89fYivkFsH2VFrr7010N9ONs6ftOVjvbVJsFJxR63aF02Hh7nu3da42Qj9NGWOJvYZN9YLoGAxSw7Len1fH4ymuhJsBgFo8CZV5tJRm7RKHYGSmMIQk8OGj1tDY27B4RCyYlf3tOzvj+CKmAAnWKKqR2lbXfEj2Stbi6CtnYdTHtoSYzzrzOw9LW8mflx6hyruEq/H1NIdUMe3nAZE9dRk92ffO/gRi/BoYt02YUwaFyvl+/zAdbrY92HpVA5dFpOSel/xKK1L6gNuGh3Rl84+lCxmWPoPMcXLLD3ord2QzlXZE7BFat8z8xNT5Syf/aWKlxbK9GCRq5c2Kocjs6iYArzXotYCY/DcC0Wx4FrkU/ecI6Px1tR2OlVe7EpafG74POL2gU0n1ELiFSJTTwHiMb+AdlcOKSp4AlJn/bK57oywppAZbJzEEn7S7AR/wFFRIlUxOXik9JvO3bKKrR6qS9Wv3UUSIROE5ONnI6d6qQmJDeerHexpUxPtYjPNexWfPXAHbosa3lsCqhnjXb8oZoviH0DbC2PyaUoL7dBhBJY6UzITzczRgmCh7RVyZTvFU2lY=
+install: nvm install 6.9.2 && npm install -g yarn && yarn global add tslint typescript
+script: bash .atomist/build/travis-build.bash
+notifications:
+  email: false
+  webhooks:
+    urls:
+    - https://webhook.atomist.com/travis
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
+cache:
+  directories:
+  - "$HOME/.atomist"
+deploy:
+  provider: releases
+  api_key:
+    secure: IX1DS4TM2xen7qVqjF1oZL8/wXDWcyGgIpSIwQvajd/ZxNMIH45Par+Bk4avyRpy7mNCoQqIOZUsJnwTlxs9tjpEKxQLuvVYmR7PbtCH+Dgme4EM2/WiQ6P43lyHO4Zm0mo/JZa/1mDZju6AkPhNqdgWsmPwfkTLfP+wdNI+Do3I0TytcbIfxqOENZLDK4XMf6H/l8BE8cWwVC/lA7jkKpXA0rgyjAYLroxMKNr3cBK6TeZktelS82YT+qQTRzTW6Uw5QOlz7NjkC/Mcwzx0XXVq2YbiCrXHWLiEQlwIbxfe8IqlBywNn36VZmDHVb0ibP7awyF7ujTc+/FWZ1QGS+8v3VKd1Z/XnkAz+gREl7SqO1v3v4VZaRxfluQD6TNaCT0TVhwaOhOTYFKlAtjH8mLJ0S1j0/PJQvkXc55ZJ/y30HaoA7oPKagBt/VzRb1JwS8064Pg8dq7xo+0vNuv07plVivkdHlhuJOWTjtatlLxkca24fezj7p8NCeT/198Nl546AM/vtINUpXTI9trGce/seO/jWhE6u3sQpw6MUu6vHL8zfTCunogM9rA5WbbWkCu3DreB4Xq9/wqjfQ47/X4jS9WhFbCjnhbV5kTkMVIfz2HkILT/yY4VfuWW0ZTRoNTM3V91LrD80VeJ7HkMqeX5lE5J9pxY6q/6Hy3DxY=
+  on:
+    tags: true
+    condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$"
