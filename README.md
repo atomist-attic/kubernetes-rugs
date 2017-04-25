@@ -1,13 +1,20 @@
-# Atomist 'kubernetes-handlers'
+# Atomist 'kubernetes-rugs'
 
-[![Build Status](https://travis-ci.org/atomist/kubernetes-handlers.svg?branch=master)](https://travis-ci.org/atomist/kubernetes-handlers)
+[![Build Status](https://travis-ci.org/atomist/kubernetes-rugs.svg?branch=master)](https://travis-ci.org/atomist/kubernetes-rugs)
 [![Slack Status](https://join.atomist.com/badge.svg)](https://join.atomist.com)
 
 [rug]: http://docs.atomist.com/
 
-A set of [Rug][rug] _handlers_ for Kubernetes.
+A set of Rugs that that integrate with [Kubernetes][k8].
 
-[rug]: https://github.com/atomist/rug
+[k8]: https://kubernetes.io/
+
+Read more about automating software development
+at [Automating Our Development Flow With Atomist][blog].  Detailed
+documentation is available in the [Atomist Documentation][docs].
+
+[blog]: https://medium.com/the-composition/automating-our-development-flow-with-atomist-6b0ec73348b6#.hwa55uv8o
+[docs]: http://docs.atomist.com/
 
 ## Support
 
@@ -17,7 +24,7 @@ at [atomist-community.slack.com][slack].
 
 If you find a problem, please create an [issue][].
 
-[issue]: https://github.com/atomist/kubernetes-handlers/issues
+[issue]: https://github.com/atomist/kubernetes-rugs/issues
 
 ## Contributing
 

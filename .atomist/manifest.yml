@@ -1,6 +1,6 @@
 group: "atomist"
-artifact: "kubernetes-handlers"
+artifact: "kubernetes-rugs"
 version: "0.20.0"
 requires: "[0.26.1,0.27.0)"
 dependencies:
-  - "atomist:github-handlers:[0.33.0,1.0.0)"
+  - "atomist:github-rugs:[0.33.0,1.0.0)"
