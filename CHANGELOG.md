@@ -7,11 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/kubernetes-rugs/compare/0.20.0...HEAD
+[Unreleased]: https://github.com/atomist/kubernetes-rugs/compare/0.20.1...HEAD
+
+## [0.20.1] - 2017-04-24
+
+[0.20.1]: https://github.com/atomist/kubernetes-rugs/compare/0.20.0...0.20.1
+
+Group release
+
+### Fixed
+
+-   Name of github-rugs group
 
 ## [0.20.0] - 2017-04-24
 
 [0.20.0]: https://github.com/atomist/kubernetes-rugs/compare/0.19.0...0.20.0
+
+Rename release
 
 ### Changed
 

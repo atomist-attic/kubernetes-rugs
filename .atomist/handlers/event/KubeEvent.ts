@@ -67,7 +67,7 @@ class K8PodEvent implements HandleEvent<K8Pod, K8Pod> {
             label: "Release",
             instruction: {
                 kind: "command",
-                name: { group: "atomist-rugs", artifact: "github-rugs", name: "CreateGitHubRelease" },
+                name: { group: "atomist", artifact: "github-rugs", name: "CreateGitHubRelease" },
                 parameters: {
                     owner: repo.owner,
                     repo: repo.name,

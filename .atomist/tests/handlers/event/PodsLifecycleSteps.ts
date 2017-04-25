@@ -20,6 +20,10 @@ import { DirectedMessage, LifecycleMessage, PlanMessage } from "@atomist/rug/ope
 
 import * as stub from "@atomist/cortex/stub/Types";
 
+const owner = "atomist";
+const repository = "myrugs";
+const sha = "b20479edc0c2a202b18814cbd4e95463df04fb83";
+
 function buildPodEvent(state: string, domain: string = "prod.atomist.services."): stub.K8Pod {
     const chatId = new stub.ChatId();
     chatId.withScreenName("me");
@@ -36,7 +40,7 @@ function buildPodEvent(state: string, domain: string = "prod.atomist.services.")
     tag.withCommit(commit);
     tag.withName("sometag");
     commit.addTags(tag);
-    commit.withSha("b20479edc0c2a202b18814cbd4e95463df04fb83");
+    commit.withSha(sha);
 
     const build = new stub.Build();
     commit.addBuilds(build);
@@ -51,8 +55,8 @@ function buildPodEvent(state: string, domain: string = "prod.atomist.services.")
     const repo = new stub.Repo();
     commit.withRepo(repo);
     push.withRepo(repo);
-    repo.withOwner("atomist-rugs");
-    repo.withName("myrugs");
+    repo.withOwner(owner);
+    repo.withName(repository);
 
     const channel = new stub.ChatChannel();
     repo.addChannels(channel);
@@ -120,7 +124,7 @@ Then("the committer should receive a direct message", (world: EventHandlerScenar
 });
 
 Then("we should receive a message", (world: EventHandlerScenarioWorld) => {
-    const lifecycleId = "commit_event/atomist-rugs/myrugs/b20479edc0c2a202b18814cbd4e95463df04fb83";
+    const lifecycleId = `commit_event/${owner}/${repository}/${sha}`;
     const message = world.plan().messages[0] as LifecycleMessage;
     return message.lifecycleId === lifecycleId;
 });

@@ -1,5 +1,5 @@
-group: "atomist"
-artifact: "kubernetes-rugs"
+group: atomist
+artifact: kubernetes-rugs
 version: "0.20.1"
 requires: "[0.26.1,0.27.0)"
 dependencies:
