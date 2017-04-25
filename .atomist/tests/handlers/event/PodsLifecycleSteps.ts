@@ -78,7 +78,7 @@ function buildPodEvent(state: string, domain: string = "prod.atomist.services.")
 }
 
 Given("pod event handler registered", (world: EventHandlerScenarioWorld) => {
-    world.registerHandler("pod-event");
+    world.registerHandler("K8PodEvent");
 });
 
 When("crash looping occurs", (world: EventHandlerScenarioWorld) => {

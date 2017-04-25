@@ -33,7 +33,7 @@ import { Tag } from "@atomist/cortex/Tag";
 
 import * as query from "@atomist/rugs/util/tree/QueryByExample";
 
-@EventHandler("pod-event", "Handle Kubernetes Pod events",
+@EventHandler("K8PodEvent", "Handle Kubernetes Pod events",
     `/K8Pod()
         [/images::DockerImage()
             [/tag::Tag()
@@ -45,7 +45,7 @@ import * as query from "@atomist/rugs/util/tree/QueryByExample";
                             [/repo::Repo()/channels::ChatChannel()]]]]]]`,
 )
 @Tags("kubernetes")
-class Deployed implements HandleEvent<K8Pod, K8Pod> {
+class K8PodEvent implements HandleEvent<K8Pod, K8Pod> {
     public handle(event: Match<K8Pod, K8Pod>): EventPlan {
         const pod: K8Pod = event.root() as K8Pod;
         const plan = new EventPlan();
@@ -91,4 +91,4 @@ class Deployed implements HandleEvent<K8Pod, K8Pod> {
     }
 }
 
-export const deployed = new Deployed();
+export const k8PodEvent = new K8PodEvent();
