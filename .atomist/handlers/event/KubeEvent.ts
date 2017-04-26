@@ -47,7 +47,7 @@ import * as query from "@atomist/rugs/util/tree/QueryByExample";
 @Tags("kubernetes")
 class K8PodEvent implements HandleEvent<K8Pod, K8Pod> {
     public handle(event: Match<K8Pod, K8Pod>): EventPlan {
-        const pod: K8Pod = event.root() as K8Pod;
+        const pod: K8Pod = event.root;
         const plan = new EventPlan();
 
         // let's not deal with those until we know what we want to do with them
