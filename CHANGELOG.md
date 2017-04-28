@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/atomist/kubernetes-rugs/compare/0.20.1...HEAD
+[Unreleased]: https://github.com/atomist/kubernetes-rugs/compare/0.21.0...HEAD
+
+## [0.21.0] - 2017-04-24
+
+[0.21.0]: https://github.com/atomist/kubernetes-rugs/compare/0.20.1...0.21.0
+
+Bit time release
+
+### Changed
+
+-   Update to rug 1.0.0-m.2 and @atomist/rugs 1.0.0-m.1
 
 ## [0.20.1] - 2017-04-24
 
