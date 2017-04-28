@@ -3,4 +3,4 @@ artifact: kubernetes-rugs
 version: "0.21.0"
 requires: "[1.0.0-m.2,2.0.0)"
 dependencies:
-  - "atomist:github-rugs:[0.34.0,1.0.0)"
+  - "atomist:github-rugs:[0.35.0,1.0.0)"
