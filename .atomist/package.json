@@ -3,7 +3,7 @@
     "@atomist/rugs": "^1.0.0-m.1"
   },
   "name": "@atomist/kubernetes-rugs",
-  "version": "0.23.0",
+  "version": "0.23.1",
   "author": "atomist",
   "description": "Atomist Rugs from atomist/kubernetes-rugs",
   "repository": {
