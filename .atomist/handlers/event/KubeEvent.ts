@@ -47,47 +47,7 @@ import * as query from "@atomist/rugs/util/tree/QueryByExample";
 @Tags("kubernetes")
 class K8PodEvent implements HandleEvent<K8Pod, K8Pod> {
     public handle(event: Match<K8Pod, K8Pod>): EventPlan {
-        const pod: K8Pod = event.root;
-        const plan = new EventPlan();
-
-        // let's not deal with those until we know what we want to do with them
-        if ((pod.state === "Unhealthy") || (pod.state === "Killing")) {
-            return plan;
-        }
-
-        const image: DockerImage = pod.images[0];
-        const commit: Commit = image.tag.commit;
-
-        const repo: Repo = image.tag.commit.builds[0].push.repo;
-
-        const lifecycleId: string = "commit_event/" + repo.owner + "/" + repo.name + "/" + commit.sha;
-        const message: LifecycleMessage = new LifecycleMessage(pod, lifecycleId);
-        const tag = pod.images[0].tag;
-        message.addAction({
-            label: "Release",
-            instruction: {
-                kind: "command",
-                name: { group: "atomist", artifact: "github-rugs", name: "CreateGitHubRelease" },
-                parameters: {
-                    owner: repo.owner,
-                    repo: repo.name,
-                    tag: tag.name,
-                    message: "Release created by TravisBuilds",
-                },
-            },
-        });
-
-        plan.add(message);
-
-        if (pod.state === "BackOff") {
-            const dm: DirectedMessage = new DirectedMessage(
-                `${pod.name} is crash-looping`,
-                new UserAddress(commit.author.person.chatId.screenName),
-                MessageMimeTypes.PLAIN_TEXT);
-            plan.add(dm);
-        }
-
-        return plan;
+        return new EventPlan();
     }
 }
 

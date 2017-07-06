@@ -26,3 +26,17 @@ editor:
     branch: "0f425945c62957ccc2ccb63e9980e6f78b97a4a1"
     sha: "0f42594"
 
+---
+kind: "operation"
+client: "com.atomist:rug"
+version: "1.0.0-20170705070236"
+editor:
+  name: "ConvertManifestToPackageJson"
+  group: "atomist"
+  artifact: "rug-rugs"
+  version: "0.32.0-20170623025305"
+  origin:
+    repo: "git@github.com:atomist/kubernetes-rugs.git"
+    branch: "master"
+    sha: "f452798*"
+

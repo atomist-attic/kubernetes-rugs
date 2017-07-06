@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "@atomist/rugs": "^1.0.0-m.1"
+  },
+  "name": "@atomist/kubernetes-rugs",
+  "version": "0.23.0",
+  "author": "atomist",
+  "description": "Atomist Rugs from atomist/kubernetes-rugs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atomist/kubernetes-rugs.git"
+  },
+  "homepage": "https://github.com/atomist/kubernetes-rugs#readme",
+  "bugs": {
+    "url": "https://github.com/atomist/kubernetes-rugs/issues"
+  },
+  "atomist": {
+    "requires": "[1.0.0-m.2,2.0.0)",
+    "dependencies": {
+      "atomist:github-rugs": "[0.35.0,1.0.0)"
+    }
   }
 }
